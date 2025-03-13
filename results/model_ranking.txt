@@ -1,0 +1,9 @@
+Model Ranking (based on mean accuracy):
+1. Logistic Regression: 5.50
+2. Random Forest: 5.50
+3. SVM: 5.50
+4. Gradient Boosting: 5.50
+5. Neural Network: 5.50
+6. XGBoost: 5.50
+7. LightGBM: 5.50
+8. Deep Learning: 5.50

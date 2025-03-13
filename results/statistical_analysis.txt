@@ -1,0 +1,1 @@
+Significant differences found (critical distance=0.120):
