@@ -1,1 +1,1 @@
-Optimal threshold: 0.698
+Optimal threshold: 0.660
