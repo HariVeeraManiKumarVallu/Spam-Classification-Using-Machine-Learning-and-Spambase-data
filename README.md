@@ -1,55 +1,90 @@
-**Spam Classification Using Machine Learning:**
+**Spam Classification Using Machine Learning and Spambase Data:**
 
-**About the Repository:**
-This repository contains a comprehensive spam classification project using multiple machine learning models, including deep learning. The project utilizes the Spambase dataset to classify emails as spam or non-spam. Various feature selection, preprocessing techniques, and cross-validation strategies are employed to ensure robust model performance evaluation.
+**About the Repository**
+This repository presents a comprehensive spam classification project using a range of machine learning models—including deep learning—applied to the Spambase dataset from the UCI Machine Learning Repository.  The project leverages advanced feature selection, dimensionality reduction, cross-validation, and statistical analysis to evaluate and compare the performance of eight different classifiers.
 
-**Project Overview:**
-1) Dataset: Spambase dataset
-2) Models Used: Logistic Regression, Random Forest, SVM, Gradient Boosting, Neural Network, XGBoost, LightGBM, Deep Learning (Keras)
-3) Feature Selection: SelectKBest (ANOVA F-test), PCA (95% variance retained)
-4) Evaluation Metrics: Accuracy, Precision, Recall, F1-score, AUC-ROC
-5) Plots & Visualizations: Feature Importance, Learning Curves, Confusion Matrices, ROC Curves, Calibration Curves, CV Score Distributions
-6) Statistical Analysis: Friedman test for model comparison
+**Project Overview**
+
+Spam emails are a persistent challenge, and accurately classifying them is essential for effective email filtering.  In this project:
+
+- **Dataset:**  The Spambase dataset contains 4,601 email instances (with 39.4% spam) and 58 attributes (57 continuous features plus 1 nominal class label).  
+
+ - **Models Evaluated:**
+   - Logistic Regression (with polynomial features)
+   - Random Forest
+   - Support Vector Machine (SVM)  
+   - Gradient Boosting
+   - Neural Network (MLP)  
+   - XGBoost
+   - LightGBM
+   - Deep Learning (Keras-based neural network)
+
+- **Feature Engineering:**
+  - **SelectKBest:** ANOVA F-test to choose the top 20 features.  
+   - **PCA:** Applied to retain 95% of the variance.
+  
+ - **Evaluation:**
+   - **10-Fold Stratified Cross-Validation**  
+   - Metrics: Accuracy, Precision, Recall, F1-score, and ROC-AUC.
+    
+ - **Visualizations & Analysis:**  
+   - Feature Importance plots, Learning Curves, Confusion Matrices, Calibration Curves, ROC Curve comparisons, CV Score Distributions, and Performance Comparison charts.
+   - Statistical analysis using the Friedman test to rank models.
+   - SHAP analysis for interpretability (applied to the Random Forest model).
+
 
 **About the Code:**
 
-The main script, spam_classification.py, performs the following tasks:
+The main script, `spam_classification.py`, performs the following tasks:
+ 1. **Data Loading & Preprocessing:** - Reads the Spambase dataset from `spambase/spambase.data` (with accompanying documentation and names files).  
+    - Applies SelectKBest and PCA for feature selection and dimensionality reduction.
+ 2. **Model Training & Evaluation:**  
+    - Defines eight models in a dictionary, including a deep learning model wrapped via Keras.  
+    - Runs 10-fold cross-validation using `StratifiedKFold` and parallel processing (via `joblib`), computing metrics (accuracy, F1, etc.) for each fold.
+ 3. **Visualization & Statistical Analysis:**  
+    - Generates multiple plots (e.g., feature importance, learning curves, confusion matrices, ROC curves, calibration curves, CV distribution, and performance comparisons).  
+    - Performs a Friedman test to statistically compare model performances and produces model rankings.
+ 4. **Output:**  
+    - All outputs (JSON reports, plots, ranking files) are saved in the `results/` directory.
 
-1) Loads the Spambase dataset and preprocesses it.
-2) Applies feature selection and dimensionality reduction using SelectKBest and PCA.
-3) Trains multiple machine learning models using 10-fold cross-validation.
-4) Computes evaluation metrics such as accuracy, precision, recall, F1-score, and ROC-AUC.
-5) Generates visualizations like feature importance plots, learning curves, confusion matrices, and ROC curves.
-6) Conducts statistical analysis to compare models and find the best performer.
-7) Saves results in a results/ directory, including JSON reports, performance comparison charts, and ranking summaries.
 
-**Outputs Generated:**
+## Outputs Generated
+ After running the script, the following outputs are saved in the `results/` folder:
+ - **Performance Metrics:**  
+   - `model_results.json`: Aggregated evaluation metrics (accuracy, precision, recall, F1-score, ROC-AUC, and training time).  
+   - `model_ranking.txt`: Models ranked by mean accuracy.  
+   - `statistical_analysis.txt`: Friedman test results and model comparisons.
+  
+ - **Visualizations:**
+   - `feature_importance_<model>.png`: Feature importance plots (for models that provide them). 
+   - `learning_curve_<model>.png`: Learning curves for each model.  
+   - `confusion_matrix_<model>.png`: Confusion matrices.  
+   - `calibration_curve_<model>.png`: Calibration curves for models with probability outputs.  
+   - `roc_curve_comparison.png`: ROC curve comparison across models.  
+   - `cv_distribution.png`: Boxplot showing the distribution of cross-validation scores.  
+   - `performance_comparison.png`: Bar chart comparing accuracy, F1-score, and training time.
 
-After running spam_classification.py, the following files and visualizations are saved in the results/ directory:
+ - **Threshold Optimization & SHAP Analysis:**
+   
+   - `optimal_threshold_<model>.txt`: The computed optimal threshold for probability-based models.  
+   - `shap_summary.png`: SHAP summary plot (applied to the Random Forest model).
 
-**Performance Metrics:**
 
-1) model_results.json - Contains accuracy, precision, recall, F1-score, ROC-AUC, and training time for all models.
-2) model_ranking.txt - Lists models ranked by mean accuracy.
-3) statistical_analysis.txt - Friedman test results for model comparisons.
+## Spambase Dataset Documentation 
+- **Title:** SPAM E-mail Database
+- **Creators:** Mark Hopkins, Erik Reeber, George Forman, Jaap Suermondt *(Hewlett-Packard Labs, Palo Alto, CA)
+  - **Donor:** George Forman
+  - **Generated:** June–July 1999
+  - ** Usage:**  
+   - Originally used in Hewlett-Packard’s internal research for spam filtering.
+   - Helps determine whether an email is spam with a misclassification error of ~7%.
+ - **Attributes:**  
+   - 57 continuous features indicating word and character frequencies and run-length measures.
+   - 1 nominal class label indicating spam (1) or non-spam (0).
+ - **Instances:**  
+   - 4,601 emails (1,813 spam [39.4%] and 2,788 non-spam [60.6%]).
+ - **Dataset Link:** [UCI Spambase Dataset] (https://archive.ics.uci.edu/ml/datasets/spambase)
 
-**Visualizations:**
-1) feature_importance_<model>.png - Feature importance plots for tree-based models.
-2) learning_curve_<model>.png - Learning curves showing model generalization.
-3) confusion_matrix_<model>.png - Heatmap visualization of classification performance.
-4) roc_curve_comparison.png - Comparison of ROC curves across models.
-5) calibration_curve_<model>.png - Calibration curves for probability-based models.
-6) cv_distribution.png - Boxplot of cross-validation score distribution.
-7) performance_comparison.png - Bar charts comparing accuracy, F1-score, and training time.
-
-**Threshold Optimization & SHAP Analysis:**
-1) optimal_threshold_<model>.txt - The best decision threshold for classification.
-2) shap_summary.png - SHAP analysis of Random Forest model for feature interpretability.
-
-**Spambase Dataset:**
-
-The Spambase dataset used in this project can be found at the following link:
-🔗 UCI Machine Learning Repository - Spambase Dataset: http://www.ics.uci.edu/~mlearn/MLRepository.html
 
 **How to Run the Project:**
 
